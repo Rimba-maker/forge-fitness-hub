@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+/* ── FORGE FITNESS HUB — Design Tokens (BMW M adapted) ─────────────── */
+@theme {
+  /* Brand */
+  --color-forge:          #FF5500;
+  --color-forge-dark:     #CC3300;
+  --color-forge-glow:     rgba(255,85,0,0.12);
+
+  /* Canvas / Surfaces */
+  --color-canvas:         #000000;
+  --color-surface-card:   #1a1a1a;
+  --color-surface-el:     #262626;
+  --color-surface-soft:   #0d0d0d;
+  --color-hairline:       #3c3c3c;
+  --color-hairline-str:   #262626;
+
+  /* Text */
+  --color-on-dark:        #ffffff;
+  --color-body-text:      #b0b0b0;
+  --color-body-str:       #e0e0e0;
+  --color-muted:          #7e7e7e;
+
+  /* Typography */
+  --font-family-display:  'Bebas Neue', Impact, sans-serif;
+  --font-family-body:     'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Spacing */
+  --spacing-section:      96px;
+}
+
+/* ── BASE ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-family-body);
+  background: var(--color-canvas);
+  color: var(--color-on-dark);
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+
+/* ── SHARED UTILITIES ─────────────────────────────────────────────────── */
+.label-upper {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--color-forge);
+  font-family: var(--font-family-body);
+}
+
+.section-title {
+  font-family: var(--font-family-display);
+  font-size: clamp(40px, 5.5vw, 72px);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-on-dark);
+  line-height: 0.95;
+  margin: 14px 0 16px;
+}
+
+.section-body {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-body-text);
+  line-height: 1.75;
+}
+
+/* ── BUTTONS ──────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0;
+  padding: 0 40px;
+  height: 48px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--color-forge);
+  color: #fff;
+  border-color: var(--color-forge);
+}
+.btn-primary:hover { background: var(--color-forge-dark); border-color: var(--color-forge-dark); }
+
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+}
+.btn-outline:hover { background: #fff; color: var(--color-canvas); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-body-str);
+  border-color: var(--color-hairline);
+}
+.btn-ghost:hover { border-color: #fff; color: #fff; }
+
+/* ── CARD GRID (1px gap on black bg = hairline) ───────────────────────── */
+.card-grid { background: var(--color-hairline); display: grid; gap: 1px; }
+
+/* ── FORGE STRIPE accent line ─────────────────────────────────────────── */
+.forge-stripe {
+  display: block;
+  height: 3px;
+  width: 40px;
+  background: var(--color-forge);
+  margin-bottom: 24px;
+}

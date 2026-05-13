@@ -1,0 +1,106 @@
+---
+import { locations } from '../../data/locations';
+---
+
+<section id="locations" class="locations">
+  <div class="locations__inner">
+    <div class="locations__header">
+      <span class="label-upper">Jakarta · Surabaya · Bandung</span>
+      <h2 class="section-title">5 Cabang Strategis</h2>
+      <p class="section-body">
+        Membership Plus ke atas: akses multi-cabang. Setiap cabang punya karakter & fasilitas sendiri.
+      </p>
+    </div>
+
+    <div class="locations__grid card-grid">
+      {locations.map((loc) => (
+        <div class:list={['location-card', { 'location-card--flagship': loc.flagship }]}>
+          {loc.flagship && <div class="location-card__flag">Flagship</div>}
+          <div class="location-card__name">{loc.name}</div>
+          <div class="location-card__size">{loc.size}</div>
+          <ul class="location-card__features">
+            {loc.features.map((f) => <li>{f}</li>)}
+          </ul>
+          <div class="location-card__hours">{loc.hours}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .locations {
+    padding: 96px 40px;
+    background: var(--color-canvas);
+  }
+  .locations__inner { max-width: 1440px; margin: 0 auto; }
+  .locations__header { margin-bottom: 64px; }
+  .locations__grid { grid-template-columns: repeat(5, 1fr); }
+
+  .location-card {
+    background: var(--color-surface-card);
+    padding: 32px;
+  }
+  .location-card--flagship { background: var(--color-surface-el); }
+
+  .location-card__flag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--color-forge);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .location-card__name {
+    font-family: var(--font-family-display);
+    font-size: 28px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .location-card__size {
+    font-family: var(--font-family-display);
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: var(--color-forge);
+    margin-bottom: 20px;
+  }
+  .location-card__features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .location-card__features li {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--color-body-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .location-card__features li::before {
+    content: '';
+    width: 3px;
+    height: 3px;
+    background: var(--color-hairline);
+    flex-shrink: 0;
+  }
+  .location-card__hours {
+    margin-top: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 1200px) { .locations__grid { grid-template-columns: repeat(3, 1fr) !important; } }
+  @media (max-width: 768px)  { .locations__grid { grid-template-columns: 1fr !important; } }
+  @media (max-width: 640px)  { .locations { padding: 60px 20px; } }
+</style>

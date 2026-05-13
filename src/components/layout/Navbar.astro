@@ -1,0 +1,183 @@
+---
+const navLinks = [
+  { label: 'Programs', href: '#programs' },
+  { label: 'Schedule', href: '#schedule' },
+  { label: 'Trainers', href: '#trainers' },
+  { label: 'Membership', href: '#membership' },
+  { label: 'Lokasi', href: '#locations' },
+];
+---
+
+<nav class="nav" id="navbar">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo" aria-label="Forge Fitness Hub">
+      <div class="nav__logo-icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="square">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+      </div>
+      <span class="nav__logo-text">FORGE</span>
+    </a>
+
+    <ul class="nav__links" role="list">
+      {navLinks.map(({ label, href }) => (
+        <li><a href={href}>{label}</a></li>
+      ))}
+    </ul>
+
+    <div class="nav__actions">
+      <a href="#booking" class="btn btn-primary nav__cta">Free Trial Class</a>
+      <button class="nav__hamburger" id="hamburger-btn" aria-label="Buka menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav__drawer" id="nav-drawer" aria-hidden="true">
+  <ul role="list">
+    {navLinks.map(({ label, href }) => (
+      <li><a href={href} class="nav__drawer-link">{label}</a></li>
+    ))}
+    <li><a href="#booking" class="btn btn-primary" style="margin-top: 8px; width: 100%; justify-content: center;">Free Trial Class</a></li>
+  </ul>
+</div>
+<div class="nav__backdrop" id="nav-backdrop"></div>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 64px;
+    background: rgba(0,0,0,0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+  .nav__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav__logo-icon {
+    width: 30px; height: 30px;
+    background: var(--color-forge);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav__logo-text {
+    font-family: var(--font-family-display);
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: #fff;
+  }
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav__links a {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: var(--color-body-text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav__links a:hover { color: #fff; }
+  .nav__actions { display: flex; align-items: center; gap: 12px; }
+  .nav__cta { height: 40px; padding: 0 24px; font-size: 11px; }
+
+  /* Hamburger */
+  .nav__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .nav__hamburger span {
+    display: block;
+    width: 22px; height: 1.5px;
+    background: #fff;
+    transition: transform 0.3s, opacity 0.2s;
+  }
+
+  /* Mobile drawer */
+  .nav__drawer {
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(0,0,0,0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-hairline);
+    padding: 24px 40px 32px;
+    transform: translateY(-110%);
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    z-index: 99;
+  }
+  .nav__drawer.open { transform: translateY(0); }
+  .nav__drawer ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .nav__drawer-link {
+    display: block;
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--color-body-str);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-hairline-str);
+    transition: color 0.2s;
+  }
+  .nav__drawer-link:hover { color: #fff; }
+
+  /* Backdrop */
+  .nav__backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 98;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .nav__backdrop.open { opacity: 1; pointer-events: auto; }
+
+  @media (max-width: 768px) {
+    .nav__inner { padding: 0 20px; }
+    .nav__links { display: none; }
+    .nav__hamburger { display: flex; }
+    .nav__cta { display: none; }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('hamburger-btn')!;
+  const drawer = document.getElementById('nav-drawer')!;
+  const backdrop = document.getElementById('nav-backdrop')!;
+
+  function toggle(open: boolean) {
+    drawer.classList.toggle('open', open);
+    backdrop.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    drawer.setAttribute('aria-hidden', String(!open));
+  }
+
+  btn.addEventListener('click', () => toggle(!drawer.classList.contains('open')));
+  backdrop.addEventListener('click', () => toggle(false));
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
+</script>

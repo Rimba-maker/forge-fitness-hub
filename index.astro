@@ -1,0 +1,1999 @@
+---
+// Forge Fitness Hub — index.astro
+// Design system: BMW M adapted — dark canvas, rectangular precision, Forge orange accent
+---
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forge Fitness Hub — Premium Gym & Fitness Center Jakarta, Surabaya</title>
+  <meta name="description" content="Gym & fitness hub dengan 50+ group class/minggu, 30+ personal trainer bersertifikat, sauna, combat studio. 5 cabang. Coba gratis 7 hari." />
+
+  <!-- Fonts: Bebas Neue (campaign display) + Inter (UI + body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <style is:global>
+    /* ── FORGE FITNESS HUB — Design Tokens (BMW M adapted) ──────────── */
+    :root {
+      /* Canvas / Surfaces */
+      --canvas:           #000000;
+      --surface-card:     #1a1a1a;
+      --surface-elevated: #262626;
+      --surface-soft:     #0d0d0d;
+      --hairline:         #3c3c3c;
+      --hairline-strong:  #262626;
+
+      /* Text */
+      --on-dark:     #ffffff;
+      --body:        #b0b0b0;
+      --body-strong: #e0e0e0;
+      --muted:       #7e7e7e;
+
+      /* Brand — Forge Orange (fire / hot iron) */
+      --forge:      #FF5500;
+      --forge-dark: #CC3300;
+      --forge-glow: rgba(255,85,0,0.12);
+
+      /* Typography */
+      --font-display: 'Bebas Neue', 'Impact', sans-serif;
+      --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Spacing (BMW M scale, base 4px) */
+      --sp-xxs:     4px;
+      --sp-xs:      8px;
+      --sp-sm:      12px;
+      --sp-md:      16px;
+      --sp-lg:      24px;
+      --sp-xl:      40px;
+      --sp-xxl:     64px;
+      --sp-section: 96px;
+
+      /* Border radius — almost always 0 (BMW M rule) */
+      --r-none: 0px;
+      --r-full: 9999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--canvas);
+      color: var(--on-dark);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+
+    /* ── UTILITIES ────────────────────────────────────────────────────── */
+    .label-upper {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--forge);
+      font-family: var(--font-body);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.5vw, 72px);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      line-height: 0.95;
+    }
+
+    .section-body {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--body);
+      line-height: 1.75;
+    }
+
+    .forge-stripe {
+      display: block;
+      height: 3px;
+      width: 40px;
+      background: var(--forge);
+      margin-bottom: var(--sp-lg);
+    }
+
+    /* ── BUTTONS ──────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: var(--r-none);
+      padding: 0 var(--sp-xl);
+      height: 48px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--forge);
+      color: var(--on-dark);
+      border-color: var(--forge);
+    }
+    .btn-primary:hover { background: var(--forge-dark); border-color: var(--forge-dark); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--on-dark);
+      border-color: var(--on-dark);
+    }
+    .btn-outline:hover { background: var(--on-dark); color: var(--canvas); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--body-strong);
+      border-color: var(--hairline);
+    }
+    .btn-ghost:hover { border-color: var(--on-dark); color: var(--on-dark); }
+
+    /* ── NAVBAR ───────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .nav__inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 var(--sp-xl);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav__logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav__logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--forge);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav__logo-text {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 3px;
+      color: var(--on-dark);
+    }
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-xl);
+      list-style: none;
+    }
+    .nav__links a {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      color: var(--body);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav__links a:hover { color: var(--on-dark); }
+
+    /* ── HERO ─────────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.97) 0%,
+        rgba(0,0,0,0.55) 45%,
+        rgba(0,0,0,0.15) 100%
+      );
+    }
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 var(--sp-xl) var(--sp-section);
+      width: 100%;
+    }
+    .hero__headline {
+      font-family: var(--font-display);
+      font-size: clamp(80px, 14vw, 180px);
+      line-height: 0.88;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      margin: var(--sp-md) 0 var(--sp-xl);
+    }
+    .hero__headline .accent { color: var(--forge); }
+    .hero__sub {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--body-strong);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: var(--sp-xl);
+    }
+    .hero__ctas {
+      display: flex;
+      gap: var(--sp-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-xxl);
+    }
+    .hero__stats {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      justify-content: start;
+      gap: var(--sp-xxl);
+      padding-top: var(--sp-xl);
+      border-top: 1px solid var(--hairline);
+    }
+    .stat__value {
+      font-family: var(--font-display);
+      font-size: 42px;
+      letter-spacing: 1px;
+      color: var(--on-dark);
+      line-height: 1;
+    }
+    .stat__label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    /* ── FREE TRIAL ───────────────────────────────────────────────────── */
+    .trial {
+      background: var(--surface-soft);
+      padding: var(--sp-section) var(--sp-xl);
+      border-top: 3px solid var(--forge);
+    }
+    .trial__inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-xxl);
+      align-items: center;
+    }
+    .trial__benefits {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-md);
+      margin: var(--sp-xl) 0;
+    }
+    .trial__benefit {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-md);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--body-strong);
+    }
+    .trial__dot {
+      width: 8px;
+      height: 8px;
+      background: var(--forge);
+      flex-shrink: 0;
+    }
+    .trial__photo-wrap {
+      position: relative;
+    }
+    .trial__photo {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+    .trial__badge {
+      position: absolute;
+      bottom: var(--sp-lg);
+      left: var(--sp-lg);
+      background: var(--forge);
+      padding: var(--sp-sm) var(--sp-lg);
+    }
+    .trial__badge-text {
+      font-family: var(--font-display);
+      font-size: 32px;
+      color: var(--on-dark);
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    /* ── PROGRAMS ─────────────────────────────────────────────────────── */
+    .programs {
+      padding: var(--sp-section) var(--sp-xl);
+      background: var(--canvas);
+    }
+    .programs__header {
+      max-width: 1440px;
+      margin: 0 auto var(--sp-xxl);
+    }
+    .programs__grid {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--hairline);
+    }
+    .program-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--surface-card);
+    }
+    .program-card__photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+    .program-card:hover .program-card__photo { transform: scale(1.06); }
+    .program-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.08) 60%);
+    }
+    .program-card__content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: var(--sp-xl);
+    }
+    .program-card__title {
+      font-family: var(--font-display);
+      font-size: 34px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      margin-bottom: var(--sp-xs);
+      line-height: 1;
+    }
+    .program-card__items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .program-card__item {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--body);
+    }
+
+    /* ── SCHEDULE ─────────────────────────────────────────────────────── */
+    .schedule {
+      padding: var(--sp-section) var(--sp-xl);
+      background: var(--surface-soft);
+      border-top: 1px solid var(--hairline);
+    }
+    .schedule__inner { max-width: 1440px; margin: 0 auto; }
+    .schedule__header { margin-bottom: var(--sp-xxl); }
+    .schedule__table-wrap { overflow-x: auto; }
+    .schedule__table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+    .schedule__table th {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: var(--sp-md) var(--sp-lg);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .schedule__table th:first-child { color: var(--forge); }
+    .schedule__table td {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--body);
+      padding: var(--sp-md) var(--sp-lg);
+      border-bottom: 1px solid var(--hairline-strong);
+    }
+    .schedule__table td:first-child {
+      font-weight: 700;
+      color: var(--body-strong);
+      letter-spacing: 0.5px;
+    }
+    .class-pill {
+      display: inline-block;
+      padding: 3px 9px;
+      background: var(--surface-elevated);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--body-strong);
+    }
+    .class-pill--hiit  { background: rgba(255,85,0,0.18); color: var(--forge); }
+    .class-pill--yoga  { background: rgba(90,170,90,0.15); color: #7dbd7d; }
+    .class-pill--combat{ background: rgba(190,70,70,0.18); color: #d98080; }
+    .schedule__footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--sp-md);
+      margin-top: var(--sp-xl);
+    }
+
+    /* ── FACILITIES ───────────────────────────────────────────────────── */
+    .facilities {
+      padding: var(--sp-section) var(--sp-xl);
+      background: var(--canvas);
+    }
+    .facilities__inner { max-width: 1440px; margin: 0 auto; }
+    .facilities__header { margin-bottom: var(--sp-xxl); }
+    .facilities__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--hairline);
+    }
+    .facility-card {
+      background: var(--surface-card);
+      overflow: hidden;
+    }
+    .facility-card__photo {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+    .facility-card__body { padding: var(--sp-xl); }
+    .facility-card__name {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--on-dark);
+      margin-bottom: var(--sp-xs);
+    }
+    .facility-card__desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--body);
+      line-height: 1.65;
+    }
+    .facility-card__tag {
+      display: inline-block;
+      margin-top: var(--sp-md);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .facility-card__tag--gold { color: #c8a02a; }
+
+    .facility-card--hours {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: var(--sp-xs);
+      background: var(--surface-elevated);
+      padding: var(--sp-xxl) var(--sp-xl);
+      text-align: center;
+    }
+    .facility-card--hours .h-value {
+      font-family: var(--font-display);
+      font-size: 56px;
+      letter-spacing: 2px;
+      color: var(--forge);
+      line-height: 1;
+    }
+    .facility-card--hours .h-sep {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--on-dark);
+    }
+    .facility-card--hours .h-label {
+      margin-top: var(--sp-md);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── TRAINERS ─────────────────────────────────────────────────────── */
+    .trainers {
+      padding: var(--sp-section) var(--sp-xl);
+      background: var(--surface-soft);
+      border-top: 1px solid var(--hairline);
+    }
+    .trainers__inner { max-width: 1440px; margin: 0 auto; }
+    .trainers__header { margin-bottom: var(--sp-xxl); }
+    .trainers__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--hairline);
+    }
+    .trainer-card { background: var(--canvas); overflow: hidden; }
+    .trainer-card__photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      filter: grayscale(25%);
+      transition: filter 0.5s;
+    }
+    .trainer-card:hover .trainer-card__photo { filter: grayscale(0%); }
+    .trainer-card__info {
+      padding: var(--sp-lg) var(--sp-xl) var(--sp-xl);
+      background: var(--surface-card);
+    }
+    .trainer-card__name {
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      margin-bottom: 3px;
+    }
+    .trainer-card__specialty {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--forge);
+      letter-spacing: 0.3px;
+      margin-bottom: var(--sp-xs);
+    }
+    .trainer-card__cert {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+    }
+    .trainer-card__price {
+      margin-top: var(--sp-md);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--body-strong);
+    }
+
+    /* ── MEMBERSHIP ───────────────────────────────────────────────────── */
+    .membership {
+      padding: var(--sp-section) var(--sp-xl);
+      background: var(--canvas);
+    }
+    .membership__inner { max-width: 1440px; margin: 0 auto; }
+    .membership__header { margin-bottom: var(--sp-xxl); }
+    .membership__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--hairline);
+    }
+    .plan-card {
+      background: var(--surface-card);
+      padding: var(--sp-xl);
+      border-top: 3px solid var(--hairline);
+      display: flex;
+      flex-direction: column;
+    }
+    .plan-card--popular { border-top-color: var(--forge); }
+    .plan-card__badge {
+      align-self: flex-start;
+      background: var(--forge);
+      padding: 3px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      margin-bottom: var(--sp-lg);
+    }
+    .plan-card__name {
+      font-family: var(--font-display);
+      font-size: 36px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      margin-bottom: var(--sp-xs);
+    }
+    .plan-card__price {
+      font-family: var(--font-display);
+      font-size: 52px;
+      letter-spacing: 1px;
+      color: var(--on-dark);
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .plan-card--popular .plan-card__price { color: var(--forge); }
+    .plan-card__period {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      margin-bottom: var(--sp-xl);
+    }
+    .plan-card__features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-sm);
+      flex: 1;
+      margin-bottom: var(--sp-xl);
+    }
+    .plan-card__feature {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-sm);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--body);
+      line-height: 1.5;
+    }
+    .plan-card__feature::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: var(--forge);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    .plan-card__cta { width: 100%; justify-content: center; }
+    .membership__note {
+      margin-top: var(--sp-lg);
+      padding: var(--sp-lg) var(--sp-xl);
+      background: var(--surface-card);
+      border-left: 3px solid var(--forge);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-xl);
+    }
+    .membership__note p {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--body);
+    }
+
+    /* ── TRANSFORMATION ───────────────────────────────────────────────── */
+    .transformations {
+      padding: var(--sp-section) var(--sp-xl);
+      background: var(--surface-soft);
+      border-top: 1px solid var(--hairline);
+    }
+    .transformations__inner { max-width: 1440px; margin: 0 auto; }
+    .transformations__header { margin-bottom: var(--sp-xxl); }
+    .transformations__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--hairline);
+    }
+    .transform-card {
+      background: var(--surface-card);
+      padding: var(--sp-xxl);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-xl);
+      align-items: start;
+    }
+    .transform-card__photos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .transform-card__photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+    .transform-card__photo--before { filter: grayscale(70%); opacity: 0.65; }
+    .transform-card__photo-label {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: var(--sp-xs) 0;
+      color: var(--muted);
+    }
+    .transform-card__photo-label--after { color: var(--forge); }
+    .transform-card__info { padding-top: var(--sp-xs); }
+    .transform-card__name {
+      font-family: var(--font-display);
+      font-size: 30px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      margin-bottom: 3px;
+    }
+    .transform-card__program {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--forge);
+      margin-bottom: var(--sp-lg);
+    }
+    .transform-card__result {
+      font-family: var(--font-display);
+      font-size: 52px;
+      letter-spacing: 1px;
+      color: var(--on-dark);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .transform-card__result-label {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: var(--sp-lg);
+    }
+    .transform-card__story {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--body);
+      line-height: 1.75;
+    }
+    .transform-card__duration {
+      display: inline-block;
+      margin-top: var(--sp-lg);
+      padding: 3px 10px;
+      background: var(--surface-elevated);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--body-strong);
+    }
+
+    /* ── LOCATIONS ────────────────────────────────────────────────────── */
+    .locations {
+      padding: var(--sp-section) var(--sp-xl);
+      background: var(--canvas);
+    }
+    .locations__inner { max-width: 1440px; margin: 0 auto; }
+    .locations__header { margin-bottom: var(--sp-xxl); }
+    .locations__grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--hairline);
+    }
+    .location-card {
+      background: var(--surface-card);
+      padding: var(--sp-xl);
+    }
+    .location-card--flagship { background: var(--surface-elevated); }
+    .location-card__flag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--forge);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      margin-bottom: var(--sp-md);
+    }
+    .location-card__name {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      line-height: 1;
+      margin-bottom: var(--sp-xs);
+    }
+    .location-card__size {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 1px;
+      color: var(--forge);
+      margin-bottom: var(--sp-lg);
+    }
+    .location-card__features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-xs);
+    }
+    .location-card__feature {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--body);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-xs);
+    }
+    .location-card__feature::before {
+      content: '';
+      width: 3px;
+      height: 3px;
+      background: var(--hairline);
+      flex-shrink: 0;
+    }
+    .location-card__hours {
+      margin-top: var(--sp-lg);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── FAQ ──────────────────────────────────────────────────────────── */
+    .faq {
+      padding: var(--sp-section) var(--sp-xl);
+      background: var(--surface-soft);
+      border-top: 1px solid var(--hairline);
+    }
+    .faq__inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--sp-xxl);
+    }
+    .faq__left { position: sticky; top: 80px; align-self: start; }
+    .faq__list { display: flex; flex-direction: column; }
+    .faq__item { border-bottom: 1px solid var(--hairline); }
+    .faq__question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: var(--sp-xl) 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--sp-xl);
+      cursor: pointer;
+      text-align: left;
+    }
+    .faq__question-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--on-dark);
+      line-height: 1.5;
+    }
+    .faq__icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .faq__icon::before, .faq__icon::after {
+      content: '';
+      position: absolute;
+      background: var(--on-dark);
+      transition: transform 0.3s;
+    }
+    .faq__icon::before { width: 18px; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+    .faq__icon::after  { width: 1px; height: 18px; left: 50%; top: 0; transform: translateX(-50%); }
+    .faq__item.open .faq__icon::after { transform: translateX(-50%) scaleY(0); }
+    .faq__answer {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--body);
+      line-height: 1.75;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .faq__item.open .faq__answer {
+      max-height: 280px;
+      padding-bottom: var(--sp-xl);
+    }
+
+    /* ── BOOKING BAND ─────────────────────────────────────────────────── */
+    .booking-band {
+      position: relative;
+      padding: var(--sp-section) var(--sp-xl);
+      overflow: hidden;
+    }
+    .booking-band__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .booking-band__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+    }
+    .booking-band__content {
+      position: relative;
+      z-index: 2;
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-xxl);
+      align-items: center;
+    }
+    .booking-band__headline {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 7vw, 88px);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      line-height: 0.92;
+      margin: var(--sp-md) 0 var(--sp-lg);
+    }
+    .booking-band__headline .accent { color: var(--forge); }
+    .booking-band__sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--body);
+      line-height: 1.75;
+    }
+    .booking-form {
+      background: var(--surface-card);
+      padding: var(--sp-xxl);
+      border-top: 3px solid var(--forge);
+    }
+    .form-group { margin-bottom: var(--sp-md); }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      background: var(--surface-elevated);
+      border: 1px solid var(--hairline);
+      color: var(--on-dark);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 300;
+      padding: 0 var(--sp-md);
+      height: 48px;
+      border-radius: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color 0.2s;
+    }
+    .form-input::placeholder { color: var(--muted); }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--forge);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-md);
+    }
+    .form-submit { width: 100%; justify-content: center; margin-top: var(--sp-xs); }
+
+    /* ── FOOTER ───────────────────────────────────────────────────────── */
+    .footer {
+      padding: var(--sp-xxl) var(--sp-xl) var(--sp-lg);
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline);
+    }
+    .footer__inner { max-width: 1440px; margin: 0 auto; }
+    .footer__top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--sp-xxl);
+      padding-bottom: var(--sp-xxl);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .footer__logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: var(--sp-md);
+    }
+    .footer__brand-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 3px;
+      color: var(--on-dark);
+    }
+    .footer__tagline {
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: var(--sp-lg);
+    }
+    .footer__social {
+      display: flex;
+      gap: var(--sp-lg);
+    }
+    .footer__social-link {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer__social-link:hover { color: var(--forge); }
+    .footer__col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--on-dark);
+      margin-bottom: var(--sp-lg);
+    }
+    .footer__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-sm);
+    }
+    .footer__links a {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer__links a:hover { color: var(--body-strong); }
+    .footer__bottom {
+      padding-top: var(--sp-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--sp-md);
+    }
+    .footer__copy {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+    .footer__legal {
+      display: flex;
+      gap: var(--sp-xl);
+    }
+    .footer__legal a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer__legal a:hover { color: var(--body); }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────────────── */
+    @media (max-width: 1200px) {
+      .facilities__grid { grid-template-columns: repeat(2, 1fr); }
+      .locations__grid  { grid-template-columns: repeat(3, 1fr); }
+      .trainers__grid   { grid-template-columns: repeat(3, 1fr); }
+      .footer__top      { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 1024px) {
+      .programs__grid     { grid-template-columns: repeat(2, 1fr); }
+      .membership__grid   { grid-template-columns: repeat(2, 1fr); }
+      .transformations__grid { grid-template-columns: 1fr; }
+      .booking-band__content { grid-template-columns: 1fr; }
+      .faq__inner         { grid-template-columns: 1fr; }
+      .faq__left          { position: static; }
+    }
+    @media (max-width: 768px) {
+      :root {
+        --sp-section: 60px;
+        --sp-xxl: 40px;
+        --sp-xl: 24px;
+      }
+      .nav__links         { display: none; }
+      .hero__headline     { font-size: 72px; }
+      .hero__stats        { grid-template-columns: repeat(2, 1fr); gap: var(--sp-xl); }
+      .trial__inner       { grid-template-columns: 1fr; }
+      .programs__grid     { grid-template-columns: 1fr; }
+      .facilities__grid   { grid-template-columns: 1fr; }
+      .trainers__grid     { grid-template-columns: repeat(2, 1fr); }
+      .membership__grid   { grid-template-columns: 1fr; }
+      .locations__grid    { grid-template-columns: 1fr; }
+      .transform-card     { grid-template-columns: 1fr; }
+      .form-row           { grid-template-columns: 1fr; }
+      .footer__top        { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .hero__headline     { font-size: 56px; }
+      .hero__stats        { grid-template-columns: 1fr 1fr; }
+      .trainers__grid     { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ━━ NAVBAR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">
+      <div class="nav__logo-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="square">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+      </div>
+      <span class="nav__logo-text">FORGE</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#trainers">Trainers</a></li>
+      <li><a href="#membership">Membership</a></li>
+      <li><a href="#locations">Lokasi</a></li>
+    </ul>
+    <a href="#booking" class="btn btn-primary">Free Trial Class</a>
+  </div>
+</nav>
+
+<!-- ━━ HERO ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="hero">
+  <img
+    class="hero__bg"
+    src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80"
+    alt="Workout gym dynamic"
+    fetchpriority="high"
+  />
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <span class="label-upper">Jakarta · Surabaya · Bandung — 5 Cabang</span>
+    <h1 class="hero__headline">
+      Mulai.<br/>
+      <span class="accent">Kuat.</span><br/>
+      Konsisten.
+    </h1>
+    <p class="hero__sub">Gym & fitness hub dengan equipment lengkap, group class harian, dan personal trainer bersertifikat. Untuk siapa pun yang serius mau berubah.</p>
+    <div class="hero__ctas">
+      <a href="#booking" class="btn btn-primary">Coba Gratis 7 Hari</a>
+      <a href="#programs" class="btn btn-outline">Lihat Program</a>
+    </div>
+    <div class="hero__stats">
+      <div>
+        <div class="stat__value">8.000+</div>
+        <div class="stat__label">Active Members</div>
+      </div>
+      <div>
+        <div class="stat__value">50+</div>
+        <div class="stat__label">Group Class / Week</div>
+      </div>
+      <div>
+        <div class="stat__value">30+</div>
+        <div class="stat__label">Certified Trainers</div>
+      </div>
+      <div>
+        <div class="stat__value">5–11</div>
+        <div class="stat__label">Open Every Day</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ FREE TRIAL ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="trial" id="trial">
+  <div class="trial__inner">
+    <div>
+      <span class="label-upper">Mulai tanpa risiko</span>
+      <h2 class="section-title" style="margin: 14px 0 20px;">7 Hari Gratis.<br/>Tidak Ada Catch.</h2>
+      <p class="section-body">Coba semua fasilitas, ikut group class, konsultasi PT — semua gratis selama 7 hari. Cocok untuk yang baru mau mulai atau pindah gym.</p>
+      <ul class="trial__benefits">
+        <li class="trial__benefit"><span class="trial__dot"></span>Full akses equipment & cardio zone</li>
+        <li class="trial__benefit"><span class="trial__dot"></span>Ikut group class apapun selama 7 hari</li>
+        <li class="trial__benefit"><span class="trial__dot"></span>1× sesi konsultasi personal trainer gratis</li>
+        <li class="trial__benefit"><span class="trial__dot"></span>Tanpa kartu kredit, tanpa komitmen</li>
+      </ul>
+      <a href="#booking" class="btn btn-primary">Claim Free Trial</a>
+    </div>
+    <div class="trial__photo-wrap">
+      <img
+        class="trial__photo"
+        src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80"
+        alt="Gym trial beginner"
+      />
+      <div class="trial__badge">
+        <div class="trial__badge-text">FREE<br/>7 DAYS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ PROGRAMS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="programs" id="programs">
+  <div class="programs__header">
+    <span class="label-upper">Sesuaikan dengan goalmu</span>
+    <h2 class="section-title" style="margin: 14px 0 16px;">Program Untuk<br/>Setiap Goal</h2>
+    <p class="section-body">Pilih sesuai goal — atau combine. Konsultasi gratis untuk tentukan yang cocok.</p>
+  </div>
+  <div class="programs__grid">
+    <div class="program-card">
+      <img class="program-card__photo" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=80" alt="Strength training" />
+      <div class="program-card__overlay"></div>
+      <div class="program-card__content">
+        <h3 class="program-card__title">Strength Training</h3>
+        <ul class="program-card__items">
+          <li class="program-card__item">Powerlifting basics & bodybuilding split</li>
+          <li class="program-card__item">Compound movement focus</li>
+          <li class="program-card__item">Free weight zone lengkap</li>
+        </ul>
+      </div>
+    </div>
+    <div class="program-card">
+      <img class="program-card__photo" src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=600&q=80" alt="HIIT workout" />
+      <div class="program-card__overlay"></div>
+      <div class="program-card__content">
+        <h3 class="program-card__title">HIIT & Conditioning</h3>
+        <ul class="program-card__items">
+          <li class="program-card__item">Tabata, AMRAP, EMOM</li>
+          <li class="program-card__item">Crossfit-style WOD</li>
+          <li class="program-card__item">45-min high intensity sessions</li>
+        </ul>
+      </div>
+    </div>
+    <div class="program-card">
+      <img class="program-card__photo" src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80" alt="Yoga class" />
+      <div class="program-card__overlay"></div>
+      <div class="program-card__content">
+        <h3 class="program-card__title">Yoga & Mind-Body</h3>
+        <ul class="program-card__items">
+          <li class="program-card__item">Hatha, Vinyasa, Yin Yoga</li>
+          <li class="program-card__item">Pilates mat & reformer</li>
+          <li class="program-card__item">Mobility & recovery class</li>
+        </ul>
+      </div>
+    </div>
+    <div class="program-card">
+      <img class="program-card__photo" src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=600&q=80" alt="Cardio zone" />
+      <div class="program-card__overlay"></div>
+      <div class="program-card__content">
+        <h3 class="program-card__title">Cardio & Endurance</h3>
+        <ul class="program-card__items">
+          <li class="program-card__item">Running club & cycling spin</li>
+          <li class="program-card__item">Stairmaster challenge</li>
+          <li class="program-card__item">Rowing & swimming (Kemang)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="program-card">
+      <img class="program-card__photo" src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=600&q=80" alt="Muay Thai combat" />
+      <div class="program-card__overlay"></div>
+      <div class="program-card__content">
+        <h3 class="program-card__title">Combat Sport</h3>
+        <ul class="program-card__items">
+          <li class="program-card__item">Muay Thai & Boxing</li>
+          <li class="program-card__item">Brazilian Jiu-Jitsu</li>
+          <li class="program-card__item">Kickboxing</li>
+        </ul>
+      </div>
+    </div>
+    <div class="program-card">
+      <img class="program-card__photo" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Personal trainer" />
+      <div class="program-card__overlay"></div>
+      <div class="program-card__content">
+        <h3 class="program-card__title">Personal Training</h3>
+        <ul class="program-card__items">
+          <li class="program-card__item">1-on-1 dengan PT bersertifikat</li>
+          <li class="program-card__item">Custom program sesuai goal</li>
+          <li class="program-card__item">Nutrition consultation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ GROUP CLASS SCHEDULE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="schedule" id="schedule">
+  <div class="schedule__inner">
+    <div class="schedule__header">
+      <span class="label-upper">50+ class per minggu</span>
+      <h2 class="section-title" style="margin: 14px 0 16px;">Group Class<br/>Schedule</h2>
+      <p class="section-body">Semua included di membership. Pilih yang cocok, atau coba semuanya.</p>
+    </div>
+    <div class="schedule__table-wrap">
+      <table class="schedule__table">
+        <thead>
+          <tr>
+            <th>Waktu</th>
+            <th>Senin</th>
+            <th>Selasa</th>
+            <th>Rabu</th>
+            <th>Kamis</th>
+            <th>Jumat</th>
+            <th>Sabtu</th>
+            <th>Minggu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>06:00</td>
+            <td><span class="class-pill class-pill--hiit">HIIT</span></td>
+            <td><span class="class-pill class-pill--yoga">Yoga Flow</span></td>
+            <td><span class="class-pill class-pill--hiit">HIIT</span></td>
+            <td><span class="class-pill class-pill--yoga">Pilates</span></td>
+            <td><span class="class-pill class-pill--hiit">HIIT</span></td>
+            <td><span class="class-pill">Bootcamp</span></td>
+            <td><span class="class-pill class-pill--yoga">Yin Yoga</span></td>
+          </tr>
+          <tr>
+            <td>07:30</td>
+            <td><span class="class-pill">Spin</span></td>
+            <td><span class="class-pill">Strength</span></td>
+            <td><span class="class-pill">Spin</span></td>
+            <td><span class="class-pill">Strength</span></td>
+            <td><span class="class-pill">Spin</span></td>
+            <td><span class="class-pill">Strength</span></td>
+            <td><span class="class-pill">Spin</span></td>
+          </tr>
+          <tr>
+            <td>12:00</td>
+            <td><span class="class-pill class-pill--yoga">Pilates</span></td>
+            <td><span class="class-pill class-pill--hiit">HIIT</span></td>
+            <td><span class="class-pill class-pill--yoga">Yoga</span></td>
+            <td><span class="class-pill class-pill--hiit">HIIT</span></td>
+            <td><span class="class-pill class-pill--yoga">Pilates</span></td>
+            <td><span class="class-pill">Open Gym</span></td>
+            <td><span class="class-pill">Mobility</span></td>
+          </tr>
+          <tr>
+            <td>18:00</td>
+            <td><span class="class-pill class-pill--combat">Muay Thai</span></td>
+            <td><span class="class-pill class-pill--combat">BJJ</span></td>
+            <td><span class="class-pill class-pill--combat">Muay Thai</span></td>
+            <td><span class="class-pill class-pill--combat">BJJ</span></td>
+            <td><span class="class-pill class-pill--combat">Boxing</span></td>
+            <td><span class="class-pill class-pill--combat">BJJ Open</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>19:30</td>
+            <td><span class="class-pill">Bootcamp</span></td>
+            <td><span class="class-pill class-pill--yoga">Pilates</span></td>
+            <td><span class="class-pill">Bootcamp</span></td>
+            <td><span class="class-pill class-pill--yoga">Pilates</span></td>
+            <td><span class="class-pill class-pill--yoga">Vinyasa</span></td>
+            <td><span class="class-pill class-pill--yoga">Vinyasa</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>20:30</td>
+            <td><span class="class-pill class-pill--yoga">Yoga Flow</span></td>
+            <td><span class="class-pill">Strength</span></td>
+            <td><span class="class-pill class-pill--yoga">Yoga Flow</span></td>
+            <td><span class="class-pill">Strength</span></td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="schedule__footer">
+      <a href="#booking" class="btn btn-ghost">Lihat Full Schedule</a>
+      <a href="#booking" class="btn btn-primary">Book Class</a>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ FACILITIES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="facilities" id="facilities">
+  <div class="facilities__inner">
+    <div class="facilities__header">
+      <span class="label-upper">Tidak setengah-setengah</span>
+      <h2 class="section-title" style="margin: 14px 0 16px;">Fasilitas Lengkap</h2>
+      <p class="section-body">Equipment premium, ruang yang thoughtfully designed, setiap detail ada untuk performa terbaikmu.</p>
+    </div>
+    <div class="facilities__grid">
+      <div class="facility-card">
+        <img class="facility-card__photo" src="https://images.unsplash.com/photo-1534438097545-a2c22c57f2ad?w=400&q=80" alt="Free weight zone" />
+        <div class="facility-card__body">
+          <div class="facility-card__name">Free Weight Zone</div>
+          <div class="facility-card__desc">Dumbbells 2–50kg, barbells, plates, racks. Semua yang dibutuhkan untuk strength training serius.</div>
+          <div class="facility-card__tag">Semua Tier</div>
+        </div>
+      </div>
+      <div class="facility-card">
+        <img class="facility-card__photo" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=400&q=80" alt="Strength machines" />
+        <div class="facility-card__body">
+          <div class="facility-card__name">Strength Machines</div>
+          <div class="facility-card__desc">Hammer Strength dan Life Fitness premium line. 60+ unit cardio zone.</div>
+          <div class="facility-card__tag">Semua Tier</div>
+        </div>
+      </div>
+      <div class="facility-card">
+        <img class="facility-card__photo" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80" alt="Yoga studio" />
+        <div class="facility-card__body">
+          <div class="facility-card__name">Yoga & Pilates Studio</div>
+          <div class="facility-card__desc">Wooden floor, reformer pilates (cabang Kemang), ventilasi optimal.</div>
+          <div class="facility-card__tag">Plus ke atas</div>
+        </div>
+      </div>
+      <div class="facility-card">
+        <img class="facility-card__photo" src="https://images.unsplash.com/photo-1547496502-affa22d38842?w=400&q=80" alt="Combat studio" />
+        <div class="facility-card__body">
+          <div class="facility-card__name">Combat Studio</div>
+          <div class="facility-card__desc">Ring boxing, heavy bag, mat BJJ. Studio dedicated untuk Muay Thai, Boxing, dan BJJ.</div>
+          <div class="facility-card__tag">Plus ke atas</div>
+        </div>
+      </div>
+      <div class="facility-card">
+        <img class="facility-card__photo" src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=400&q=80" alt="Sauna recovery" />
+        <div class="facility-card__body">
+          <div class="facility-card__name">Sauna & Steam Room</div>
+          <div class="facility-card__desc">Infrared sauna dan steam room untuk pemulihan otot selepas workout.</div>
+          <div class="facility-card__tag facility-card__tag--gold">Gold ke atas</div>
+        </div>
+      </div>
+      <div class="facility-card">
+        <img class="facility-card__photo" src="https://images.unsplash.com/photo-1520877880798-5ee004e3f11e?w=400&q=80" alt="Modern locker room" />
+        <div class="facility-card__body">
+          <div class="facility-card__name">Locker & Shower Modern</div>
+          <div class="facility-card__desc">Towel service, hairdryer, dan amenities berkualitas hotel.</div>
+          <div class="facility-card__tag">Semua Tier</div>
+        </div>
+      </div>
+      <div class="facility-card">
+        <img class="facility-card__photo" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80" alt="Smoothie bar" />
+        <div class="facility-card__body">
+          <div class="facility-card__name">Smoothie Bar & Café</div>
+          <div class="facility-card__desc">Protein shake, healthy snack, kopi specialty. Energi in, energi out.</div>
+          <div class="facility-card__tag">Semua Cabang</div>
+        </div>
+      </div>
+      <div class="facility-card facility-card--hours">
+        <div class="h-value">5AM</div>
+        <div class="h-sep">— 11PM</div>
+        <div class="h-label">Setiap Hari · 365 Hari</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ PERSONAL TRAINERS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="trainers" id="trainers">
+  <div class="trainers__inner">
+    <div class="trainers__header">
+      <span class="label-upper">Bersertifikat internasional</span>
+      <h2 class="section-title" style="margin: 14px 0 16px;">Tim Personal Trainer</h2>
+      <p class="section-body">Berpengalaman dan spesialis sesuai goalmu — dari weight loss sampai powerlifting.</p>
+    </div>
+    <div class="trainers__grid">
+      <div class="trainer-card">
+        <img class="trainer-card__photo" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80" alt="Coach Andre" />
+        <div class="trainer-card__info">
+          <div class="trainer-card__name">Coach Andre</div>
+          <div class="trainer-card__specialty">Strength & Powerlifting</div>
+          <div class="trainer-card__cert">NASM · 10+ years</div>
+          <div class="trainer-card__price">Rp 450k / sesi</div>
+        </div>
+      </div>
+      <div class="trainer-card">
+        <img class="trainer-card__photo" src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400&q=80" alt="Coach Sasha" />
+        <div class="trainer-card__info">
+          <div class="trainer-card__name">Coach Sasha</div>
+          <div class="trainer-card__specialty">Weight Loss & Female Fitness</div>
+          <div class="trainer-card__cert">ACE · NSCA</div>
+          <div class="trainer-card__price">Rp 400k / sesi</div>
+        </div>
+      </div>
+      <div class="trainer-card">
+        <img class="trainer-card__photo" src="https://images.unsplash.com/photo-1611672585731-fa10603fb9e0?w=400&q=80" alt="Coach Reza" />
+        <div class="trainer-card__info">
+          <div class="trainer-card__name">Coach Reza</div>
+          <div class="trainer-card__specialty">HIIT & Athletic Conditioning</div>
+          <div class="trainer-card__cert">NSCA-CSCS</div>
+          <div class="trainer-card__price">Rp 450k / sesi</div>
+        </div>
+      </div>
+      <div class="trainer-card">
+        <img class="trainer-card__photo" src="https://images.unsplash.com/photo-1570691079236-4bca6c45d440?w=400&q=80" alt="Coach Maya" />
+        <div class="trainer-card__info">
+          <div class="trainer-card__name">Coach Maya</div>
+          <div class="trainer-card__specialty">Yoga & Mobility</div>
+          <div class="trainer-card__cert">RYT-500</div>
+          <div class="trainer-card__price">Rp 350k / sesi</div>
+        </div>
+      </div>
+      <div class="trainer-card">
+        <img class="trainer-card__photo" src="https://images.unsplash.com/photo-1605296867424-35fc25c9212a?w=400&q=80" alt="Coach Bram" />
+        <div class="trainer-card__info">
+          <div class="trainer-card__name">Coach Bram</div>
+          <div class="trainer-card__specialty">Muay Thai & Boxing</div>
+          <div class="trainer-card__cert">Pro Fighter · 8 yrs</div>
+          <div class="trainer-card__price">Rp 500k / sesi</div>
+        </div>
+      </div>
+      <div class="trainer-card">
+        <img class="trainer-card__photo" src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&q=80" alt="Coach Lia" />
+        <div class="trainer-card__info">
+          <div class="trainer-card__name">Coach Lia</div>
+          <div class="trainer-card__specialty">Pilates Reformer</div>
+          <div class="trainer-card__cert">Polestar Certified</div>
+          <div class="trainer-card__price">Rp 400k / sesi</div>
+        </div>
+      </div>
+      <div class="trainer-card">
+        <img class="trainer-card__photo" src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&q=80" alt="Coach Daniel" />
+        <div class="trainer-card__info">
+          <div class="trainer-card__name">Coach Daniel</div>
+          <div class="trainer-card__specialty">Bodybuilding</div>
+          <div class="trainer-card__cert">IFBB Pro</div>
+          <div class="trainer-card__price">Rp 600k / sesi</div>
+        </div>
+      </div>
+      <div class="trainer-card">
+        <img class="trainer-card__photo" src="https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=400&q=80" alt="Coach Nina" />
+        <div class="trainer-card__info">
+          <div class="trainer-card__name">Coach Nina</div>
+          <div class="trainer-card__specialty">Pre / Postnatal Fitness</div>
+          <div class="trainer-card__cert">Specialized Cert</div>
+          <div class="trainer-card__price">Rp 400k / sesi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ MEMBERSHIP PLANS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="membership" id="membership">
+  <div class="membership__inner">
+    <div class="membership__header">
+      <span class="label-upper">Bisa upgrade kapan saja</span>
+      <h2 class="section-title" style="margin: 14px 0 16px;">Pilih Paket<br/>Membership</h2>
+      <p class="section-body">Tidak ada hidden fee, tidak ada kontrak paksa. Annual hemat 25%.</p>
+    </div>
+    <div class="membership__grid">
+      <div class="plan-card">
+        <div class="plan-card__name">Basic</div>
+        <div class="plan-card__price">550K</div>
+        <div class="plan-card__period">/ bulan · 1 cabang</div>
+        <ul class="plan-card__features">
+          <li class="plan-card__feature">Akses gym + cardio area</li>
+          <li class="plan-card__feature">Group class fitness (HIIT, yoga)</li>
+          <li class="plan-card__feature">Modern locker & shower</li>
+          <li class="plan-card__feature">Buka 5AM–11PM</li>
+        </ul>
+        <a href="#booking" class="btn btn-ghost plan-card__cta">Mulai Basic</a>
+      </div>
+      <div class="plan-card plan-card--popular">
+        <div class="plan-card__badge">Paling Populer</div>
+        <div class="plan-card__name">Plus</div>
+        <div class="plan-card__price">950K</div>
+        <div class="plan-card__period">/ bulan · 3 cabang</div>
+        <ul class="plan-card__features">
+          <li class="plan-card__feature">Semua fitur Basic</li>
+          <li class="plan-card__feature">Combat studio access</li>
+          <li class="plan-card__feature">Yoga reformer access</li>
+          <li class="plan-card__feature">Free 1 PT session / bulan</li>
+          <li class="plan-card__feature">Freeze 30 hari / tahun gratis</li>
+        </ul>
+        <a href="#booking" class="btn btn-primary plan-card__cta">Mulai Plus</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card__name">Gold</div>
+        <div class="plan-card__price">1.5JT</div>
+        <div class="plan-card__period">/ bulan · All cabang</div>
+        <ul class="plan-card__features">
+          <li class="plan-card__feature">Semua fitur Plus</li>
+          <li class="plan-card__feature">Sauna & steam room</li>
+          <li class="plan-card__feature">4 PT sessions / bulan</li>
+          <li class="plan-card__feature">Towel service & amenities</li>
+          <li class="plan-card__feature">Permanent locker</li>
+        </ul>
+        <a href="#booking" class="btn btn-ghost plan-card__cta">Mulai Gold</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card__name">Elite</div>
+        <div class="plan-card__price">2.5JT</div>
+        <div class="plan-card__period">/ bulan · All cabang</div>
+        <ul class="plan-card__features">
+          <li class="plan-card__feature">Semua fitur Gold</li>
+          <li class="plan-card__feature">Unlimited PT sessions</li>
+          <li class="plan-card__feature">Nutrition consultation</li>
+          <li class="plan-card__feature">Recovery (massage, cryo)</li>
+          <li class="plan-card__feature">Guest pass 2× / bulan</li>
+        </ul>
+        <a href="#booking" class="btn btn-ghost plan-card__cta">Mulai Elite</a>
+      </div>
+    </div>
+    <div class="membership__note">
+      <span class="label-upper" style="white-space: nowrap;">Annual Deal</span>
+      <p>Bayar 9 bulan untuk 12 bulan. Hemat 25% langsung — tanpa kode promo, tanpa syarat tersembunyi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ TRANSFORMATION STORIES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="transformations" id="transformations">
+  <div class="transformations__inner">
+    <div class="transformations__header">
+      <span class="label-upper">Bukan janji — ini hasil nyata</span>
+      <h2 class="section-title" style="margin: 14px 0 16px;">Real Members,<br/>Real Transformations</h2>
+      <p class="section-body">Member dari berbagai latar belakang. Goal berbeda, hasil nyata.</p>
+    </div>
+    <div class="transformations__grid">
+      <div class="transform-card">
+        <div>
+          <div class="transform-card__photos">
+            <div>
+              <img class="transform-card__photo transform-card__photo--before" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=80" alt="Before" />
+              <div class="transform-card__photo-label">Sebelum</div>
+            </div>
+            <div>
+              <img class="transform-card__photo" src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=80" alt="After" />
+              <div class="transform-card__photo-label transform-card__photo-label--after">Setelah</div>
+            </div>
+          </div>
+        </div>
+        <div class="transform-card__info">
+          <div class="transform-card__name">Reza, 32</div>
+          <div class="transform-card__program">Weight Loss Journey · PT 3×/week</div>
+          <div class="transform-card__result">−27 kg</div>
+          <div class="transform-card__result-label">dalam 8 bulan</div>
+          <p class="transform-card__story">Dari 105kg ke 78kg. Office worker yang dulu sedentary, sekarang lifting 1.5× body weight. Program: PT 3×/week + HIIT class + nutrition plan.</p>
+          <div class="transform-card__duration">8 Bulan</div>
+        </div>
+      </div>
+      <div class="transform-card">
+        <div>
+          <div class="transform-card__photos">
+            <div>
+              <img class="transform-card__photo transform-card__photo--before" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&q=80" alt="Before" />
+              <div class="transform-card__photo-label">Sebelum</div>
+            </div>
+            <div>
+              <img class="transform-card__photo" src="https://images.unsplash.com/photo-1534258936925-c58bed479fcb?w=300&q=80" alt="After" />
+              <div class="transform-card__photo-label transform-card__photo-label--after">Setelah</div>
+            </div>
+          </div>
+        </div>
+        <div class="transform-card__info">
+          <div class="transform-card__name">Sari, 28</div>
+          <div class="transform-card__program">Strength Building · Powerlifting Group</div>
+          <div class="transform-card__result">Squat 100kg</div>
+          <div class="transform-card__result-label">dari nol dalam 1 tahun</div>
+          <p class="transform-card__story">Beginner yang belum pernah angkat beban, sekarang squat 100kg dan deadlift 120kg. Program: Powerlifting group + PT bi-weekly.</p>
+          <div class="transform-card__duration">1 Tahun</div>
+        </div>
+      </div>
+      <div class="transform-card">
+        <div>
+          <div class="transform-card__photos">
+            <div>
+              <img class="transform-card__photo transform-card__photo--before" src="https://images.unsplash.com/photo-1542466500-f7e87878de8f?w=300&q=80" alt="Before" />
+              <div class="transform-card__photo-label">Sebelum</div>
+            </div>
+            <div>
+              <img class="transform-card__photo" src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=300&q=80" alt="After" />
+              <div class="transform-card__photo-label transform-card__photo-label--after">Setelah</div>
+            </div>
+          </div>
+        </div>
+        <div class="transform-card__info">
+          <div class="transform-card__name">Bayu, 45</div>
+          <div class="transform-card__program">Health Reversal · Cardio + Nutrition</div>
+          <div class="transform-card__result">−18 kg</div>
+          <div class="transform-card__result-label">gula & kolesterol normal</div>
+          <p class="transform-card__story">Pre-diabetes, kolesterol tinggi. 6 bulan kemudian semua health metrics normal. Program: Cardio + strength + nutrition consultation.</p>
+          <div class="transform-card__duration">6 Bulan</div>
+        </div>
+      </div>
+      <div class="transform-card">
+        <div>
+          <div class="transform-card__photos">
+            <div>
+              <img class="transform-card__photo transform-card__photo--before" src="https://images.unsplash.com/photo-1518644961665-ed172691aaa1?w=300&q=80" alt="Before" />
+              <div class="transform-card__photo-label">Sebelum</div>
+            </div>
+            <div>
+              <img class="transform-card__photo" src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=300&q=80" alt="After" />
+              <div class="transform-card__photo-label transform-card__photo-label--after">Setelah</div>
+            </div>
+          </div>
+        </div>
+        <div class="transform-card__info">
+          <div class="transform-card__name">Mira, 35</div>
+          <div class="transform-card__program">Postpartum Recovery · Pilates + PT</div>
+          <div class="transform-card__result">Stronger</div>
+          <div class="transform-card__result-label">dari sebelum hamil</div>
+          <p class="transform-card__story">Postpartum 6 bulan, kehilangan kepercayaan diri. 5 bulan kemudian: recovered dan lebih kuat dari sebelum hamil. Program: Pre/postnatal PT + pilates + yoga.</p>
+          <div class="transform-card__duration">5 Bulan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ LOCATIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="locations" id="locations">
+  <div class="locations__inner">
+    <div class="locations__header">
+      <span class="label-upper">Jakarta · Surabaya · Bandung</span>
+      <h2 class="section-title" style="margin: 14px 0 16px;">5 Cabang Strategis</h2>
+      <p class="section-body">Membership Plus ke atas: akses multi-cabang. Setiap cabang punya karakter & fasilitas sendiri.</p>
+    </div>
+    <div class="locations__grid">
+      <div class="location-card location-card--flagship">
+        <div class="location-card__flag">Flagship</div>
+        <div class="location-card__name">Forge SCBD</div>
+        <div class="location-card__size">3.000 m² · 3 Floor</div>
+        <ul class="location-card__features">
+          <li class="location-card__feature">Full facility</li>
+          <li class="location-card__feature">Yoga, combat, pool</li>
+          <li class="location-card__feature">Basement parking</li>
+        </ul>
+        <div class="location-card__hours">5AM – 11PM</div>
+      </div>
+      <div class="location-card">
+        <div class="location-card__name">Forge Kemang</div>
+        <div class="location-card__size">1.800 m² · 2 Floor</div>
+        <ul class="location-card__features">
+          <li class="location-card__feature">Pool & reformer pilates</li>
+          <li class="location-card__feature">Sauna premium</li>
+          <li class="location-card__feature">Women-only zone</li>
+        </ul>
+        <div class="location-card__hours">5AM – 11PM</div>
+      </div>
+      <div class="location-card">
+        <div class="location-card__name">Forge BSD</div>
+        <div class="location-card__size">1.500 m²</div>
+        <ul class="location-card__features">
+          <li class="location-card__feature">Combat studio</li>
+          <li class="location-card__feature">Sauna & steam</li>
+          <li class="location-card__feature">Free parking</li>
+        </ul>
+        <div class="location-card__hours">5AM – 11PM</div>
+      </div>
+      <div class="location-card">
+        <div class="location-card__name">Forge Surabaya</div>
+        <div class="location-card__size">2.000 m²</div>
+        <ul class="location-card__features">
+          <li class="location-card__feature">Full facility</li>
+          <li class="location-card__feature">Sauna & recovery</li>
+          <li class="location-card__feature">Valet parking</li>
+        </ul>
+        <div class="location-card__hours">5AM – 11PM</div>
+      </div>
+      <div class="location-card">
+        <div class="location-card__name">Forge Bandung</div>
+        <div class="location-card__size">1.500 m²</div>
+        <ul class="location-card__features">
+          <li class="location-card__feature">Outdoor terrace</li>
+          <li class="location-card__feature">Mountain view</li>
+          <li class="location-card__feature">Free parking</li>
+        </ul>
+        <div class="location-card__hours">5AM – 11PM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ FAQ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="faq" id="faq">
+  <div class="faq__inner">
+    <div class="faq__left">
+      <span class="label-upper">Ada pertanyaan?</span>
+      <h2 class="section-title" style="margin: 14px 0 20px;">FAQ</h2>
+      <p class="section-body" style="margin-bottom: 32px;">Tidak menemukan jawabannya? Chat langsung — team kami response dalam 5 menit.</p>
+      <a href="https://wa.me/628001234567" class="btn btn-primary">Chat WhatsApp</a>
+    </div>
+    <div class="faq__list">
+      <div class="faq__item">
+        <button class="faq__question" onclick="this.parentElement.classList.toggle('open')">
+          <span class="faq__question-text">Saya beginner, takut intimidated. Cocok ga?</span>
+          <span class="faq__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq__answer">Sangat cocok. Tim PT kami terlatih khusus untuk beginner. Free trial 7 hari dilengkapi dengan PT consultation gratis — jadi kamu mulai dengan guidance yang tepat, bukan langsung sendirian di gym.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="this.parentElement.classList.toggle('open')">
+          <span class="faq__question-text">Apakah ada lock-in contract?</span>
+          <span class="faq__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq__answer">Membership bulanan: tidak ada kontrak, bisa cancel kapan saja. Annual: 12 bulan commitment dengan harga 9 bulan (hemat 25%). Tidak ada hidden fee atau biaya cancellation.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="this.parentElement.classList.toggle('open')">
+          <span class="faq__question-text">Bisa freeze membership?</span>
+          <span class="faq__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq__answer">Bisa. Plus ke atas: max 30 hari/tahun gratis. Basic: berbayar Rp 100k untuk freeze. Proses mudah via app atau langsung ke reception cabang manapun.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="this.parentElement.classList.toggle('open')">
+          <span class="faq__question-text">Bisa join class kalau tidak member?</span>
+          <span class="faq__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq__answer">Bisa. Day pass Rp 150k untuk akses gym seharian, atau class drop-in Rp 175k untuk satu group class. Tidak perlu daftar membership dulu.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="this.parentElement.classList.toggle('open')">
+          <span class="faq__question-text">Apakah ada women-only zone?</span>
+          <span class="faq__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq__answer">Ada di cabang Kemang. Semua cabang wheelchair-accessible, dan kami punya PT terlatih untuk berbagai kebutuhan spesifik termasuk pre/postnatal dan rehabilitation.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="this.parentElement.classList.toggle('open')">
+          <span class="faq__question-text">Apakah ada parkir?</span>
+          <span class="faq__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq__answer">Semua cabang ada parking. SCBD: basement. Kemang: ground parking. BSD & Bandung: free parking. Surabaya: valet parking tersedia.</div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__question" onclick="this.parentElement.classList.toggle('open')">
+          <span class="faq__question-text">Apa yang beda Forge dari gym biasa?</span>
+          <span class="faq__icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq__answer">Forge bukan sekadar gym — ini fitness hub. 50+ group class per minggu, 30+ PT bersertifikat, combat studio, yoga & pilates studio, sauna, smoothie bar, dan komunitas aktif. Semuanya di satu tempat, satu membership.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ BOOKING CTA BAND ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section class="booking-band" id="booking">
+  <img class="booking-band__bg" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1920&q=80" alt="Gym workout" />
+  <div class="booking-band__overlay"></div>
+  <div class="booking-band__content">
+    <div>
+      <span class="label-upper">Tidak ada alasan untuk menunda</span>
+      <h2 class="booking-band__headline">
+        Mulai<br/>Free Trial<br/>
+        <span class="accent">7 Hari</span>
+      </h2>
+      <p class="booking-band__sub">Tanpa kartu kredit. Datang ke cabang terdekat dengan kode trial yang kami kirim ke WhatsApp-mu.</p>
+    </div>
+    <div class="booking-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-nama">Nama Lengkap</label>
+          <input class="form-input" type="text" id="f-nama" placeholder="Nama kamu" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-wa">Nomor WhatsApp</label>
+          <input class="form-input" type="tel" id="f-wa" placeholder="08xx xxxx xxxx" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="f-email">Email</label>
+          <input class="form-input" type="email" id="f-email" placeholder="email@kamu.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-cabang">Cabang Preferensi</label>
+          <select class="form-select" id="f-cabang">
+            <option value="">Pilih cabang</option>
+            <option>Forge SCBD</option>
+            <option>Forge Kemang</option>
+            <option>Forge BSD</option>
+            <option>Forge Surabaya West</option>
+            <option>Forge Bandung</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="f-goal">Goal Utama</label>
+        <select class="form-select" id="f-goal">
+          <option value="">Pilih goalmu</option>
+          <option>Weight Loss</option>
+          <option>Muscle Gain</option>
+          <option>General Fitness</option>
+          <option>Stress Relief</option>
+          <option>Sport-Specific Training</option>
+        </select>
+      </div>
+      <button class="btn btn-primary form-submit">Claim Trial Saya →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div>
+        <div class="footer__logo">
+          <div style="width: 26px; height: 26px; background: var(--forge); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="square">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <span class="footer__brand-name">FORGE FITNESS HUB</span>
+        </div>
+        <div class="footer__tagline">"Built by those who refuse average."</div>
+        <div class="footer__social">
+          <a href="#" class="footer__social-link">Instagram</a>
+          <a href="#" class="footer__social-link">TikTok</a>
+          <a href="#" class="footer__social-link">YouTube</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer__col-title">Program</div>
+        <ul class="footer__links">
+          <li><a href="#programs">Strength Training</a></li>
+          <li><a href="#programs">HIIT & Conditioning</a></li>
+          <li><a href="#programs">Yoga & Mind-Body</a></li>
+          <li><a href="#programs">Combat Sport</a></li>
+          <li><a href="#programs">Personal Training</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Membership</div>
+        <ul class="footer__links">
+          <li><a href="#membership">Basic — 550K</a></li>
+          <li><a href="#membership">Plus — 950K</a></li>
+          <li><a href="#membership">Gold — 1.5JT</a></li>
+          <li><a href="#membership">Elite — 2.5JT</a></li>
+          <li><a href="#membership">Day Pass — 150K</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Informasi</div>
+        <ul class="footer__links">
+          <li><a href="#locations">Cabang & Lokasi</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#schedule">Group Schedule</a></li>
+          <li><a href="#trainers">Personal Trainer</a></li>
+          <li><a href="#booking">Free Trial</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__copy">© 2025 Forge Fitness Hub. Jakarta · Surabaya · Bandung.</div>
+      <div class="footer__legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // FAQ accordion — keyboard-accessible toggle
+  document.querySelectorAll('.faq__question').forEach(btn => {
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        btn.parentElement.classList.toggle('open');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

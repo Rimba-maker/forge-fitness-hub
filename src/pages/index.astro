@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import Locations from '../components/sections/Locations.astro';
+
+import Hero from '../components/sections/Hero';
+import FreeTrial from '../components/sections/FreeTrial';
+import Programs from '../components/sections/Programs';
+import Schedule from '../components/sections/Schedule';
+import Facilities from '../components/sections/Facilities';
+import Trainers from '../components/sections/Trainers';
+import Membership from '../components/sections/Membership';
+import Transformations from '../components/sections/Transformations';
+import FAQ from '../components/sections/FAQ';
+import BookingCTA from '../components/sections/BookingCTA';
+---
+
+<BaseLayout
+  title="Forge Fitness Hub — Forge Your Strongest Self"
+  description="Gym premium di Jakarta, Surabaya & Bandung. 8.000+ member aktif, 50+ kelas grup per minggu, personal trainer bersertifikat internasional. Mulai free trial 7 hari sekarang."
+>
+  <Navbar />
+  <main>
+    <Hero client:load />
+    <FreeTrial client:visible />
+    <Programs client:visible />
+    <Schedule client:visible />
+    <Facilities client:visible />
+    <Trainers client:visible />
+    <Membership client:visible />
+    <Transformations client:visible />
+    <Locations />
+    <FAQ client:visible />
+    <BookingCTA client:idle />
+  </main>
+  <Footer />
+</BaseLayout>
