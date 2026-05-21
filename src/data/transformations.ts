@@ -37,7 +37,7 @@ export const transformations: Transformation[] = [
     resultLabel: 'gula & kolesterol normal',
     story: 'Pre-diabetes, kolesterol tinggi. 6 bulan kemudian semua health metrics normal. Program: Cardio + strength + nutrition consultation.',
     duration: '6 Bulan',
-    photoBefore: 'https://images.unsplash.com/photo-1542466500-f7e87878de8f?w=300&q=80',
+    photoBefore: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80',
     photoAfter: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=300&q=80',
   },
   {

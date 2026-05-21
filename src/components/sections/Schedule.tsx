@@ -87,7 +87,7 @@ export default function Schedule() {
           </table>
         </motion.div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 16, marginTop: 40 }}>
+        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-10">
           <a href="#booking" className="btn btn-ghost">Lihat Full Schedule</a>
           <a href="#booking" className="btn btn-primary">Book Class</a>
         </div>
