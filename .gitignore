@@ -25,3 +25,6 @@ Thumbs.db
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# Private PRD
+155-gym-fitness-PRD.md
