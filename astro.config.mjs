@@ -7,5 +7,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  site: 'https://forgefitnesshub.com',
+  site: 'https://Rimba-maker.github.io',
+  base: '/forge-fitness-hub',
 });
